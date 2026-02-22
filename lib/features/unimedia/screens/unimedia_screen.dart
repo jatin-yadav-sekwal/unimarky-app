@@ -29,7 +29,7 @@ class _UnimediaScreenState extends State<UnimediaScreen> {
     try {
       final typeP = _type != 'all' ? '&type=$_type' : '';
       final data = await ApiClient.instance.get('/social?limit=$_limit&offset=${reset ? 0 : _offset}$typeP');
-      final posts = (data['posts'] as List? ?? []).map((e) => Post.fromJson(e)).toList();
+      final posts = (data['items'] as List? ?? []).map((e) => Post.fromJson(e)).toList();
       setState(() {
         if (reset) { _posts = posts; } else { _posts.addAll(posts); }
         _hasMore = data['hasMore'] == true;

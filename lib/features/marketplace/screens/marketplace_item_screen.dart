@@ -129,7 +129,9 @@ class _MarketplaceItemScreenState extends State<MarketplaceItemScreen> {
                         child: Icon(Icons.verified, size: 16, color: Colors.blue)),
                     ]),
                     subtitle: item.seller.department != null ? Text(item.seller.department!) : null,
+                    trailing: const Icon(Icons.chevron_right),
                     contentPadding: EdgeInsets.zero,
+                    onTap: () => context.push('/public-profile/${item.seller.id}'),
                   ),
 
                   // Contact

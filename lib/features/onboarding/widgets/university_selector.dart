@@ -22,34 +22,50 @@ class _UniversitySelectorState extends State<UniversitySelector> {
   List<String> _filtered = [];
 
   static const _universities = [
-    'Amity University',
-    'Ashoka University',
-    'Bennett University',
-    'BITS Pilani',
-    'Christ University',
-    'Delhi University',
+    // Featured
+    'Central University of Haryana',
+    // IITs
     'IIT Bombay',
     'IIT Delhi',
-    'IIT Kanpur',
     'IIT Madras',
-    'IIIT Hyderabad',
-    'ISB Hyderabad',
-    'Jadavpur University',
-    'JMI New Delhi',
-    'JNU New Delhi',
-    'LPU Jalandhar',
-    'Manipal University',
-    'MAHE Manipal',
+    'IIT Kanpur',
+    'IIT Kharagpur',
+    'IIT Roorkee',
+    'IIT Hyderabad',
+    // Central Universities
+    'University of Delhi',
+    'Jawaharlal Nehru University (JNU)',
+    'Banaras Hindu University (BHU)',
+    'Aligarh Muslim University (AMU)',
+    'Jamia Millia Islamia',
+    'Central University of Punjab',
+    'Central University of Rajasthan',
+    'Central University of Kashmir',
+    // NITs
     'NIT Trichy',
     'NIT Warangal',
-    'OP Jindal Global University',
-    'Presidency University Bengaluru',
-    'SRM University',
-    'Symbiosis International University',
-    'Thapar University',
+    'NIT Surathkal',
+    'NIT Kurukshetra',
+    // State Universities
+    'Anna University',
+    'Savitribai Phule Pune University',
+    'University of Mumbai',
+    'University of Calcutta',
+    'Osmania University',
+    'Panjab University',
+    'Maharshi Dayanand University (MDU)',
+    'Kurukshetra University',
+    // Private Universities
+    'BITS Pilani',
+    'Manipal Academy of Higher Education',
+    'Amity University',
     'VIT Vellore',
-    'XLRI Jamshedpur',
-    'Other',
+    'SRM Institute of Science and Technology',
+    'Lovely Professional University (LPU)',
+    'Chandigarh University',
+    'Shiv Nadar University',
+    'Ashoka University',
+    'Thapar Institute of Engineering',
   ];
 
   @override
@@ -95,6 +111,7 @@ class _UniversitySelectorState extends State<UniversitySelector> {
         TextField(
           controller: _controller,
           focusNode: _focusNode,
+          style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
           decoration: InputDecoration(
             hintText: 'Search university...',
             prefixIcon: const Icon(Icons.school_outlined),
@@ -125,7 +142,13 @@ class _UniversitySelectorState extends State<UniversitySelector> {
                 final uni = _filtered[index];
                 return ListTile(
                   dense: true,
-                  title: Text(uni, style: const TextStyle(fontSize: 14)),
+                  title: Text(
+                    uni,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
                   onTap: () => _select(uni),
                 );
               },

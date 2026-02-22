@@ -60,7 +60,15 @@ class _LostFoundScreenState extends State<LostFoundScreen> {
   Widget build(BuildContext context) {
     final typeColors = {'lost': Colors.red, 'found': Colors.green};
     return Scaffold(
-      appBar: AppBar(title: const Text('Lost & Found')),
+      appBar: AppBar(
+        title: const Text('Lost & Found'),
+        actions: [
+          TextButton(
+            onPressed: () => context.push('/lost-found/my-listings'),
+            child: const Text('My Listings'),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/lostfound/report'),
         child: const Icon(Icons.add),

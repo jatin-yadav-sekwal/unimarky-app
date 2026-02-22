@@ -8,37 +8,38 @@ class AppTheme {
 
   // ── Text Theme (shared base) ──
   static TextTheme _buildTextTheme(TextTheme base) {
-    return GoogleFonts.interTextTheme(base).copyWith(
-      headlineLarge: GoogleFonts.inter(
+    final inter = GoogleFonts.interTextTheme(base);
+    return inter.copyWith(
+      headlineLarge: inter.headlineLarge?.copyWith(
         fontSize: 28,
         fontWeight: FontWeight.w700,
         letterSpacing: -0.5,
       ),
-      headlineMedium: GoogleFonts.inter(
+      headlineMedium: inter.headlineMedium?.copyWith(
         fontSize: 22,
         fontWeight: FontWeight.w600,
       ),
-      titleLarge: GoogleFonts.inter(
+      titleLarge: inter.titleLarge?.copyWith(
         fontSize: 18,
         fontWeight: FontWeight.w600,
       ),
-      titleMedium: GoogleFonts.inter(
+      titleMedium: inter.titleMedium?.copyWith(
         fontSize: 16,
         fontWeight: FontWeight.w500,
       ),
-      bodyLarge: GoogleFonts.inter(
+      bodyLarge: inter.bodyLarge?.copyWith(
         fontSize: 16,
         fontWeight: FontWeight.w400,
       ),
-      bodyMedium: GoogleFonts.inter(
+      bodyMedium: inter.bodyMedium?.copyWith(
         fontSize: 14,
         fontWeight: FontWeight.w400,
       ),
-      bodySmall: GoogleFonts.inter(
+      bodySmall: inter.bodySmall?.copyWith(
         fontSize: 12,
         fontWeight: FontWeight.w400,
       ),
-      labelLarge: GoogleFonts.inter(
+      labelLarge: inter.labelLarge?.copyWith(
         fontSize: 14,
         fontWeight: FontWeight.w600,
       ),

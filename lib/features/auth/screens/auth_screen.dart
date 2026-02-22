@@ -130,28 +130,53 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: BrandColors.blue.withValues(alpha: 0.8),
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
 
-                    // Social auth
+                    // Social login first, like the web
                     const SocialAuthButton(),
-                    const SizedBox(height: 20),
 
-                    // Tabs
-                    TabBar(
-                      controller: _tabController,
-                      tabs: const [Tab(text: 'Login'), Tab(text: 'Sign Up')],
-                      labelColor: BrandColors.navy,
-                      indicatorColor: BrandColors.orange,
+                    const SizedBox(height: 24),
+
+                    // Custom Tabs
+                    Container(
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.all(4),
+                      child: TabBar(
+                        controller: _tabController,
+                        indicator: BoxDecoration(
+                          color: theme.colorScheme.surface,
+                          borderRadius: BorderRadius.circular(6),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.05),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            )
+                          ]
+                        ),
+                        labelColor: BrandColors.navy,
+                        unselectedLabelColor: BrandColors.blue.withValues(alpha: 0.7),
+                        dividerColor: Colors.transparent,
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        tabs: const [
+                          Tab(text: 'Login'),
+                          Tab(text: 'Sign Up')
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 24),
 
                     // Form
                     Form(
                       key: _formKey,
                       child: Column(
                         children: [
-                          // Full name (signup only)
                           if (_isSignup) ...[
                             AppInput(
                               controller: _fullNameController,
@@ -160,10 +185,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                               validator: (v) =>
                                   (v == null || v.isEmpty) ? 'Name is required' : null,
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 16),
                           ],
 
-                          // Email
                           AppInput(
                             controller: _emailController,
                             label: 'Email',
@@ -175,51 +199,52 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                               return null;
                             },
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 16),
 
-                          // Password
                           AppInput(
                             controller: _passwordController,
                             label: 'Password',
                             obscureText: true,
+                            hint: '••••••••',
                             validator: (v) {
                               if (v == null || v.isEmpty) return 'Password is required';
                               if (v.length < 6) return 'Min 6 characters';
                               return null;
                             },
                           ),
-                          const SizedBox(height: 16),
 
-                          // Error
-                          if (_error != null)
+                          if (_error != null) ...[
+                            const SizedBox(height: 16),
                             Container(
                               width: double.infinity,
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
                                 color: Colors.red.shade50,
                                 borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: Colors.red.shade200)
                               ),
                               child: Text(_error!,
-                                  style: const TextStyle(color: Colors.red, fontSize: 13)),
+                                  style: TextStyle(color: Colors.red.shade700, fontSize: 13)),
                             ),
+                          ],
 
-                          // Success message
-                          if (_message != null)
+                          if (_message != null) ...[
+                            const SizedBox(height: 16),
                             Container(
                               width: double.infinity,
                               padding: const EdgeInsets.all(12),
-                              margin: const EdgeInsets.only(top: 8),
                               decoration: BoxDecoration(
                                 color: Colors.green.shade50,
                                 borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: Colors.green.shade200)
                               ),
                               child: Text(_message!,
-                                  style: const TextStyle(color: Colors.green, fontSize: 13)),
+                                  style: TextStyle(color: Colors.green.shade700, fontSize: 13)),
                             ),
+                          ],
 
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 24),
 
-                          // Submit button
                           SizedBox(
                             width: double.infinity,
                             child: AppButton(

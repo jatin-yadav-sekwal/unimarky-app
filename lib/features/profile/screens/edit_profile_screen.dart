@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:unimarky/core/network/api_client.dart';
 import 'package:unimarky/features/auth/providers/auth_provider.dart';
+import 'package:unimarky/features/onboarding/widgets/university_selector.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -15,6 +16,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   final _nameCtrl = TextEditingController();
   final _mobileCtrl = TextEditingController();
   final _deptCtrl = TextEditingController();
+  String _university = '';
   bool _submitting = false;
 
   @override
@@ -25,6 +27,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       _nameCtrl.text = profile.fullName ?? '';
       _mobileCtrl.text = profile.mobileNumber ?? '';
       _deptCtrl.text = profile.department ?? '';
+      _university = profile.universityName ?? '';
     }
   }
 
@@ -42,6 +45,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     try {
       await ApiClient.instance.patch('/profiles/me', data: {
         'fullName': _nameCtrl.text.trim(),
+        'universityName': _university.isNotEmpty ? _university : null,
         'mobileNumber': _mobileCtrl.text.trim(),
         'department': _deptCtrl.text.trim().isNotEmpty ? _deptCtrl.text.trim() : null,
       });
@@ -79,9 +83,23 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               const SizedBox(height: 16),
               TextFormField(
+                initialValue: ref.read(authProvider).user?.email ?? '',
+                decoration: const InputDecoration(labelText: 'Email Address', border: OutlineInputBorder(), prefixIcon: Icon(Icons.email)),
+                enabled: false,
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
                 controller: _mobileCtrl,
                 decoration: const InputDecoration(labelText: 'Mobile Number', border: OutlineInputBorder(), prefixIcon: Icon(Icons.phone)),
                 keyboardType: TextInputType.phone,
+              ),
+              const SizedBox(height: 16),
+              // Use UniversitySelector for choosing the university
+              const Text('University', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              UniversitySelector(
+                value: _university.isEmpty ? null : _university,
+                onChanged: (v) => setState(() => _university = v),
               ),
               const SizedBox(height: 16),
               TextFormField(

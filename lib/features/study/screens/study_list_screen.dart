@@ -48,8 +48,10 @@ class _StudyListScreenState extends State<StudyListScreen> {
     if (_selectedDept == null || _selectedYear == null) { return; }
     setState(() => _isLoading = true);
     try {
-      final catP = _selectedCategory != null ? '&category=$_selectedCategory' : '';
-      final data = await ApiClient.instance.get('/study?department=$_selectedDept&year=$_selectedYear$catP');
+      final catP = _selectedCategory != null ? '&category=${Uri.encodeComponent(_selectedCategory!)}' : '';
+      final d = Uri.encodeComponent(_selectedDept!);
+      final y = Uri.encodeComponent(_selectedYear!);
+      final data = await ApiClient.instance.get('/study?department=$d&year=$y$catP');
       final list = data is List ? data : [];
       setState(() {
         _materials = list.map((e) => StudyMaterial.fromJson(e)).toList();

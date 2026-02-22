@@ -8,10 +8,14 @@ import 'package:unimarky/features/dashboard/screens/dashboard_screen.dart';
 import 'package:unimarky/features/profile/screens/profile_screen.dart';
 import 'package:unimarky/features/marketplace/screens/marketplace_screen.dart';
 import 'package:unimarky/features/marketplace/screens/marketplace_item_screen.dart';
+import 'package:unimarky/features/marketplace/screens/my_marketplace_listings_screen.dart';
 import 'package:unimarky/features/marketplace/screens/create_listing_screen.dart';
+import 'package:unimarky/features/marketplace/screens/edit_listing_screen.dart';
 import 'package:unimarky/features/lostfound/screens/lostfound_screen.dart';
 import 'package:unimarky/features/lostfound/screens/lostfound_item_screen.dart';
 import 'package:unimarky/features/lostfound/screens/report_item_screen.dart';
+import 'package:unimarky/features/lostfound/screens/my_lostfound_listings_screen.dart';
+import 'package:unimarky/features/lostfound/screens/edit_report_screen.dart';
 import 'package:unimarky/features/unimedia/screens/unimedia_screen.dart';
 import 'package:unimarky/features/unimedia/screens/post_detail_screen.dart';
 import 'package:unimarky/features/explore/screens/explore_screen.dart';
@@ -23,33 +27,50 @@ import 'package:unimarky/features/admin/screens/admin_panel_screen.dart';
 import 'package:unimarky/features/admin/screens/superuser_screen.dart';
 import 'package:unimarky/features/profile/screens/edit_profile_screen.dart';
 import 'package:unimarky/features/profile/screens/my_content_screen.dart';
+import 'package:unimarky/features/profile/screens/public_profile_screen.dart';
 import 'package:unimarky/features/landing/screens/landing_screen.dart';
 
 // ── GoRouter configuration ──
 // Mirrors react-router-dom routes + ProtectedRoute logic from App.tsx.
 // Uses authProvider from features/auth/providers/auth_provider.dart.
 
+class _RouterNotifier extends ChangeNotifier {
+  final Ref _ref;
+
+  _RouterNotifier(this._ref) {
+    _ref.listen(authProvider, (_, __) => notifyListeners());
+  }
+}
+
+final _routerNotifierProvider = Provider<_RouterNotifier>((ref) {
+  return _RouterNotifier(ref);
+});
+
 final routerProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authProvider);
+  final notifier = ref.watch(_routerNotifierProvider);
 
   return GoRouter(
-    initialLocation: '/',
+    refreshListenable: notifier,
+    initialLocation: '/splash',
     debugLogDiagnostics: true,
     redirect: (context, state) {
-      if (authState.isLoading) return null;
+      final authState = ref.read(authProvider);
+      if (authState.isLoading) {
+        return state.uri.path == '/splash' ? null : '/splash';
+      }
 
       final isAuthenticated = authState.isAuthenticated;
       final isOnboarded = authState.onboardingCompleted;
       final path = state.uri.path;
 
-      final publicPaths = ['/', '/auth', '/about', '/contact', '/privacy', '/terms'];
+      final publicPaths = ['/', '/auth', '/about', '/contact', '/privacy', '/terms', '/splash'];
       final isPublicRoute = publicPaths.contains(path);
 
       // Not authenticated → send to auth
       if (!isAuthenticated && !isPublicRoute) return '/auth';
 
-      // Authenticated but on auth page → redirect
-      if (isAuthenticated && path == '/auth') {
+      // Authenticated but on auth page or splash → redirect appropriately
+      if (isAuthenticated && (path == '/auth' || path == '/splash')) {
         return isOnboarded ? '/dashboard' : '/onboarding';
       }
 
@@ -64,6 +85,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      // ── Splash ──
+      GoRoute(
+        path: '/splash',
+        builder: (_, _) => const Scaffold(body: Center(child: CircularProgressIndicator())),
+      ),
+
       // ── Public routes ──
       GoRoute(path: '/', builder: (_, _) => const LandingScreen()),
       GoRoute(path: '/auth', builder: (_, _) => const AuthScreen()),
@@ -78,10 +105,14 @@ final routerProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(path: '/dashboard', builder: (_, _) => const DashboardScreen()),
           GoRoute(path: '/marketplace', builder: (_, _) => const MarketplaceScreen()),
+          GoRoute(path: '/marketplace/my-listings', builder: (_, _) => const MyMarketplaceListingsScreen()),
           GoRoute(path: '/marketplace/create', builder: (_, _) => const CreateListingScreen()),
+          GoRoute(path: '/marketplace/edit/:id', builder: (_, state) => EditListingScreen(itemId: state.pathParameters['id']!)),
           GoRoute(path: '/marketplace/:id', builder: (_, state) => MarketplaceItemScreen(itemId: state.pathParameters['id']!)),
           GoRoute(path: '/lost-found', builder: (_, _) => const LostFoundScreen()),
+          GoRoute(path: '/lost-found/my-listings', builder: (_, _) => const MyLostFoundListingsScreen()),
           GoRoute(path: '/lost-found/report', builder: (_, _) => const ReportItemScreen()),
+          GoRoute(path: '/lost-found/edit/:id', builder: (_, state) => EditReportScreen(itemId: state.pathParameters['id']!)),
           GoRoute(path: '/lost-found/:id', builder: (_, state) => LostFoundItemScreen(itemId: state.pathParameters['id']!)),
           GoRoute(path: '/unimedia', builder: (_, _) => const UnimediaScreen()),
           GoRoute(path: '/unimedia/:id', builder: (_, state) => PostDetailScreen(postId: state.pathParameters['id']!)),
@@ -91,6 +122,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(path: '/study/upload', builder: (_, _) => const UploadMaterialScreen()),
           GoRoute(path: '/profile', builder: (_, _) => const ProfileScreen()),
           GoRoute(path: '/profile/edit', builder: (_, _) => const EditProfileScreen()),
+          GoRoute(path: '/public-profile/:id', builder: (_, state) => PublicProfileScreen(userId: state.pathParameters['id']!)),
           GoRoute(path: '/request-role', builder: (_, _) => const RequestRoleScreen()),
           GoRoute(path: '/my-content', builder: (_, _) => const MyContentScreen()),
           GoRoute(path: '/admin', builder: (_, _) => const AdminPanelScreen()),

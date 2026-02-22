@@ -57,7 +57,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       });
 
       // 3. Refresh profile in provider
-      ref.read(authProvider.notifier).refreshProfile();
+      await ref.read(authProvider.notifier).refreshProfile();
 
       // 4. Navigate to dashboard
       if (mounted) context.go('/dashboard');

@@ -96,6 +96,8 @@ class _LostFoundItemScreenState extends State<LostFoundItemScreen> {
               title: Text(item.reporter.fullName, style: const TextStyle(fontWeight: FontWeight.w600)),
               subtitle: item.reporter.department != null ? Text(item.reporter.department!) : null,
               contentPadding: EdgeInsets.zero,
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push('/public-profile/${item.reporter.id}'),
             ),
             if (item.reporter.mobileNumber != null) ...[
               const SizedBox(height: 12),

@@ -69,7 +69,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
         title: const Text('Marketplace'),
         actions: [
           TextButton(
-            onPressed: () => context.push('/my-listings'),
+            onPressed: () => context.push('/marketplace/my-listings'),
             child: const Text('My Listings'),
           ),
         ],
