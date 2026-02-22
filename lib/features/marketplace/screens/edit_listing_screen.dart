@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:unimarky/core/network/api_client.dart';
+import 'package:unimarky/core/utils/image_compressor.dart';
 import 'package:unimarky/features/marketplace/models/marketplace_item.dart';
 
 class EditListingScreen extends StatefulWidget {
@@ -46,12 +47,13 @@ class _EditListingScreenState extends State<EditListingScreen> {
         _titleC.text = item.title;
         _descC.text = item.description;
         _priceC.text = item.price.toString();
-        if (item.manufacturedYear != null) {
-          _yearC.text = item.manufacturedYear.toString();
+        if (data['manufacturedYear'] != null) {
+          _yearC.text = data['manufacturedYear'].toString();
         }
         
-        final catExists = marketplaceCategories.any((c) => c['value'] == item.categoryId);
-        _category = catExists ? item.categoryId : 'electronics';
+        final catId = data['categoryId'] as String?;
+        final catExists = marketplaceCategories.any((c) => c['value'] == catId);
+        _category = catExists && catId != null ? catId : 'electronics';
         
         final condExists = conditionOptions.any((c) => c['value'] == item.condition);
         _condition = condExists ? item.condition : 'good';
@@ -71,8 +73,11 @@ class _EditListingScreenState extends State<EditListingScreen> {
   }
 
   Future<void> _pickImage() async {
-    final picked = await ImagePicker().pickImage(source: ImageSource.gallery, maxWidth: 1200, imageQuality: 80);
-    if (picked != null) setState(() => _newImage = picked);
+    var picked = await ImagePicker().pickImage(source: ImageSource.gallery, maxWidth: 1200, imageQuality: 80);
+    if (picked != null) {
+      picked = await ImageCompressor.compressImage(picked);
+      setState(() => _newImage = picked);
+    }
   }
 
   Future<String?> _uploadImage() async {

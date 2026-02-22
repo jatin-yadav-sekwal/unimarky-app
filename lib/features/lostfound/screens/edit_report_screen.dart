@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:unimarky/core/network/api_client.dart';
+import 'package:unimarky/core/utils/image_compressor.dart';
 import 'package:unimarky/features/lostfound/models/lostfound_item.dart';
 
 class EditReportScreen extends StatefulWidget {
@@ -44,8 +45,10 @@ class _EditReportScreenState extends State<EditReportScreen> {
         _type = item.type;
         _nameC.text = item.itemName;
         _descC.text = item.description;
-        _locC.text = item.location;
-        _category = item.categoryId;
+        _locC.text = item.location ?? '';
+        final catId = data['categoryId'] as String?;
+        final catExists = lostFoundCategories.any((c) => c['value'] == catId);
+        _category = catExists && catId != null ? catId : 'electronics';
         _existingImageUrl = item.imageUrl;
         _isLoading = false;
       });
@@ -60,8 +63,11 @@ class _EditReportScreenState extends State<EditReportScreen> {
   }
 
   Future<void> _pickImage() async {
-    final picked = await ImagePicker().pickImage(source: ImageSource.gallery, maxWidth: 1200, imageQuality: 80);
-    if (picked != null) setState(() => _newImage = picked);
+    var picked = await ImagePicker().pickImage(source: ImageSource.gallery, maxWidth: 1200, imageQuality: 80);
+    if (picked != null) {
+      picked = await ImageCompressor.compressImage(picked);
+      setState(() => _newImage = picked);
+    }
   }
 
   Future<String?> _uploadImage() async {
@@ -172,7 +178,7 @@ class _EditReportScreenState extends State<EditReportScreen> {
               maxLines: 3, validator: (v) => v == null || v.trim().isEmpty ? 'Required' : null),
             const SizedBox(height: 12),
 
-            TextFormField(controller: _locC, decoration: const InputDecoration(labelText: 'Location', border: OutlineInputBorder(),
+            TextFormField(controller: _locC, decoration: InputDecoration(labelText: 'Location', border: const OutlineInputBorder(),
               hintText: _type == 'lost' ? 'Where did you lose it?' : 'Where did you find it?'),
               validator: (v) => v == null || v.trim().isEmpty ? 'Required' : null),
             const SizedBox(height: 12),
@@ -201,3 +207,13 @@ class _EditReportScreenState extends State<EditReportScreen> {
     );
   }
 }
+
+const lostFoundCategories = [
+  {'value': 'all', 'label': 'All Categories'},
+  {'value': 'electronics', 'label': 'Electronics'},
+  {'value': 'documents', 'label': 'Documents'},
+  {'value': 'clothing', 'label': 'Clothing'},
+  {'value': 'keys', 'label': 'Keys'},
+  {'value': 'accessories', 'label': 'Accessories'},
+  {'value': 'other', 'label': 'Other'},
+];

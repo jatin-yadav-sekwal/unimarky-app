@@ -4,11 +4,13 @@ import 'package:unimarky/features/housing/screens/housing_list_screen.dart';
 import 'package:unimarky/features/study/screens/study_list_screen.dart';
 
 class ExploreScreen extends StatelessWidget {
-  const ExploreScreen({super.key});
+  final int initialIndex;
+  const ExploreScreen({super.key, this.initialIndex = 0});
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: initialIndex,
       length: 3,
       child: Scaffold(
         appBar: AppBar(

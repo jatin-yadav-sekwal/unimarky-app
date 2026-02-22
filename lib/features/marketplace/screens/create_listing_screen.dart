@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:unimarky/core/network/api_client.dart';
+import 'package:unimarky/core/utils/image_compressor.dart';
 import 'package:unimarky/features/marketplace/models/marketplace_item.dart';
 
 class CreateListingScreen extends StatefulWidget {
@@ -25,8 +26,11 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
   XFile? _image;
 
   Future<void> _pickImage() async {
-    final picked = await ImagePicker().pickImage(source: ImageSource.gallery, maxWidth: 1200, imageQuality: 80);
-    if (picked != null) setState(() => _image = picked);
+    var picked = await ImagePicker().pickImage(source: ImageSource.gallery, maxWidth: 1200, imageQuality: 80);
+    if (picked != null) {
+      picked = await ImageCompressor.compressImage(picked);
+      setState(() => _image = picked);
+    }
   }
 
   Future<String?> _uploadImage() async {

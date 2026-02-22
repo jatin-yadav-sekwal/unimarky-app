@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:unimarky/core/network/api_client.dart';
 import '../models/study_models.dart';
 import '../widgets/study_material_card.dart';
@@ -147,11 +148,18 @@ class _StudyListScreenState extends State<StudyListScreen> {
                             padding: const EdgeInsets.only(bottom: 8),
                             child: StudyMaterialCard(
                               material: _materials[i],
-                              onTap: () {
+                              onTap: () async {
                                 final url = _materials[i].fileUrl;
                                 if (url != null && url.isNotEmpty) {
-                                  Clipboard.setData(ClipboardData(text: url));
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('File link copied to clipboard')));
+                                  final uri = Uri.parse(url);
+                                  if (await canLaunchUrl(uri)) {
+                                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                                  } else {
+                                    Clipboard.setData(ClipboardData(text: url));
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('File link copied to clipboard')));
+                                    }
+                                  }
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No file link available')));
                                 }

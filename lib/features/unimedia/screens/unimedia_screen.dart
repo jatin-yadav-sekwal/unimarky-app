@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:unimarky/core/network/api_client.dart';
+import 'package:unimarky/features/auth/providers/auth_provider.dart';
 import 'package:unimarky/features/unimedia/models/post_model.dart';
 import 'package:unimarky/features/unimedia/widgets/post_card.dart';
 import 'package:unimarky/features/unimedia/widgets/create_post_sheet.dart';
 
-class UnimediaScreen extends StatefulWidget {
+class UnimediaScreen extends ConsumerStatefulWidget {
   const UnimediaScreen({super.key});
   @override
-  State<UnimediaScreen> createState() => _UnimediaScreenState();
+  ConsumerState<UnimediaScreen> createState() => _UnimediaScreenState();
 }
 
-class _UnimediaScreenState extends State<UnimediaScreen> {
+class _UnimediaScreenState extends ConsumerState<UnimediaScreen> {
   List<Post> _posts = [];
   bool _loading = true;
   bool _loadingMore = false;
@@ -66,10 +68,11 @@ class _UnimediaScreenState extends State<UnimediaScreen> {
   }
 
   void _openCreateSheet() {
+    final role = ref.read(userProfileProvider)?.role ?? 'normal';
     showModalBottomSheet(
       context: context, isScrollControlled: true,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-      builder: (_) => CreatePostSheet(onCreated: () => _fetch(reset: true)),
+      builder: (_) => CreatePostSheet(role: role, onCreated: () => _fetch(reset: true)),
     );
   }
 

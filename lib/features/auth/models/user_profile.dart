@@ -27,16 +27,16 @@ class UserProfile {
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile(
       id: json['id'] as String,
-      fullName: json['fullName'] as String?,
+      fullName: (json['fullName'] ?? json['full_name']) as String?,
       email: json['email'] as String?,
-      universityName: json['universityName'] as String?,
-      mobileNumber: json['mobileNumber'] as String?,
+      universityName: (json['universityName'] ?? json['university_name']) as String?,
+      mobileNumber: (json['mobileNumber'] ?? json['mobile_number']) as String?,
       department: json['department'] as String?,
-      role: (json['role'] as String?) ?? 'normal',
-      onboardingCompleted: (json['onboardingCompleted'] as bool?) ?? false,
-      avatarUrl: json['avatarUrl'] as String?,
-      createdAt: json['createdAt'] != null
-          ? DateTime.tryParse(json['createdAt'] as String)
+      role: ((json['role'] ?? 'normal') as String?) ?? 'normal',
+      onboardingCompleted: ((json['onboardingCompleted'] ?? json['onboarding_completed']) as bool?) ?? false,
+      avatarUrl: (json['avatarUrl'] ?? json['avatar_url']) as String?,
+      createdAt: json['createdAt'] != null || json['created_at'] != null
+          ? DateTime.tryParse((json['createdAt'] ?? json['created_at']) as String)
           : null,
     );
   }

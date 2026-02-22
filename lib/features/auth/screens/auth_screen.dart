@@ -90,14 +90,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
 
   @override
   Widget build(BuildContext context) {
-    // If already authenticated, redirect
-    final authState = ref.watch(authProvider);
-    if (authState.isAuthenticated) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) context.go('/dashboard');
-      });
-    }
-
     final theme = Theme.of(context);
 
     return Scaffold(

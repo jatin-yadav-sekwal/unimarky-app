@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:unimarky/features/auth/providers/auth_provider.dart';
 
-class MyContentScreen extends StatelessWidget {
+class MyContentScreen extends ConsumerWidget {
   const MyContentScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    bool isSuper = (ref.watch(userProfileProvider)?.role ?? 'normal') != 'normal';
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Content'),
@@ -32,30 +35,32 @@ class MyContentScreen extends StatelessWidget {
                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Unimedia posts management coming soon!')));
             },
           ),
-          const Divider(height: 1),
-          _ContentSectionTile(
-            icon: Icons.restaurant_menu,
-            title: 'My Food & Restaurants',
-            onTap: () {
-               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Food management coming soon!')));
-            },
-          ),
-          const Divider(height: 1),
-          _ContentSectionTile(
-            icon: Icons.other_houses_outlined,
-            title: 'My Accommodations',
-            onTap: () {
-               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Accommodation management coming soon!')));
-            },
-          ),
-          const Divider(height: 1),
-          _ContentSectionTile(
-            icon: Icons.menu_book_outlined,
-            title: 'My Study Materials',
-            onTap: () {
-               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Study material management coming soon!')));
-            },
-          ),
+          if (isSuper) ...[
+            const Divider(height: 1),
+            _ContentSectionTile(
+              icon: Icons.restaurant_menu,
+              title: 'My Food & Restaurants',
+              onTap: () {
+                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Food management coming soon!')));
+              },
+            ),
+            const Divider(height: 1),
+            _ContentSectionTile(
+              icon: Icons.other_houses_outlined,
+              title: 'My Accommodations',
+              onTap: () {
+                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Accommodation management coming soon!')));
+              },
+            ),
+            const Divider(height: 1),
+            _ContentSectionTile(
+              icon: Icons.menu_book_outlined,
+              title: 'My Study Materials',
+              onTap: () {
+                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Study material management coming soon!')));
+              },
+            ),
+          ],
         ],
       ),
     );

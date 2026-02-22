@@ -30,13 +30,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     try {
       final api = ApiClient.instance;
       final results = await Future.wait([
-        api.get('/marketplace?limit=3').catchError((_) => []),
-        api.get('/lost-found?limit=3').catchError((_) => []),
+        api.get('/marketplace/my-listings').catchError((_) => []),
+        api.get('/lost-found/my-listings').catchError((_) => []),
       ]);
       if (mounted) {
         setState(() {
-          _marketplaceItems = List<Map<String, dynamic>>.from(results[0] as List? ?? []);
-          _lostFoundItems = List<Map<String, dynamic>>.from(results[1] as List? ?? []);
+          _marketplaceItems = List<Map<String, dynamic>>.from(results[0] as List? ?? []).take(3).toList();
+          _lostFoundItems = List<Map<String, dynamic>>.from(results[1] as List? ?? []).take(3).toList();
           _isLoading = false;
         });
       }
@@ -84,7 +84,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 mainAxisSpacing: 12,
                 crossAxisSpacing: 12,
-                childAspectRatio: 1.3,
+                childAspectRatio: 1.15,
                 children: const [
                   QuickAccessCard(
                     title: 'Marketplace',
@@ -112,21 +112,21 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     description: 'Restaurants nearby',
                     icon: Icons.restaurant,
                     gradientColors: [Color(0xFF10B981), Color(0xFF059669)],
-                    route: '/food',
+                    route: '/explore?tab=food',
                   ),
                   QuickAccessCard(
                     title: 'Housing',
                     description: 'Find a place to stay',
                     icon: Icons.home,
                     gradientColors: [Color(0xFF8B5CF6), Color(0xFF6D28D9)],
-                    route: '/housing',
+                    route: '/explore?tab=housing',
                   ),
                   QuickAccessCard(
                     title: 'Study',
                     description: 'Resources & notes',
                     icon: Icons.menu_book,
                     gradientColors: [Color(0xFF06B6D4), Color(0xFF0891B2)],
-                    route: '/study',
+                    route: '/explore?tab=study',
                   ),
                 ],
               ),
@@ -150,7 +150,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   icon: Icons.shopping_bag,
                   iconColor: BrandColors.orange,
                   bgColor: BrandColors.orange.withValues(alpha: 0.1),
-                  href: '/marketplace',
+                  href: '/marketplace/my-listings',
                   items: _marketplaceItems,
                   secondaryHref: '/marketplace/create',
                   secondaryLabel: '+ New Listing',
@@ -161,7 +161,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   icon: Icons.search,
                   iconColor: Colors.red,
                   bgColor: Colors.red.withValues(alpha: 0.1),
-                  href: '/lost-found',
+                  href: '/lost-found/my-listings',
                   items: _lostFoundItems,
                   secondaryHref: '/lost-found/report',
                   secondaryLabel: '+ Report Item',

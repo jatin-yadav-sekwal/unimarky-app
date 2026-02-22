@@ -30,10 +30,10 @@ class _MyLostFoundListingsScreenState extends State<MyLostFoundListingsScreen> {
 
     try {
       final response = await ApiClient.instance.get('/lost-found/my-listings');
-      if (response.data != null && response.data['items'] != null) {
+      if (response is List) {
         setState(() {
-          _items = (response.data['items'] as List)
-              .map((json) => LostFoundItem.fromJson(json))
+          _items = response
+              .map((json) => LostFoundItem.fromJson(json as Map<String, dynamic>))
               .toList();
         });
       }

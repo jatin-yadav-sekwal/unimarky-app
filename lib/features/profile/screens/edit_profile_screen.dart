@@ -79,7 +79,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               TextFormField(
                 controller: _nameCtrl,
                 decoration: const InputDecoration(labelText: 'Full Name', border: OutlineInputBorder(), prefixIcon: Icon(Icons.person)),
-                validator: (v) => (v == null || v.trim().isEmpty) ? 'Name is required' : null,
+                readOnly: true,
+                enabled: false,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -97,9 +98,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               // Use UniversitySelector for choosing the university
               const Text('University', style: TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              UniversitySelector(
-                value: _university.isEmpty ? null : _university,
-                onChanged: (v) => setState(() => _university = v),
+              TextFormField(
+                initialValue: _university,
+                decoration: const InputDecoration(border: OutlineInputBorder(), prefixIcon: Icon(Icons.account_balance)),
+                readOnly: true,
+                enabled: false,
               ),
               const SizedBox(height: 16),
               TextFormField(

@@ -47,7 +47,7 @@ final _routerNotifierProvider = Provider<_RouterNotifier>((ref) {
 });
 
 final routerProvider = Provider<GoRouter>((ref) {
-  final notifier = ref.watch(_routerNotifierProvider);
+  final notifier = ref.read(_routerNotifierProvider);
 
   return GoRouter(
     refreshListenable: notifier,
@@ -55,19 +55,30 @@ final routerProvider = Provider<GoRouter>((ref) {
     debugLogDiagnostics: true,
     redirect: (context, state) {
       final authState = ref.read(authProvider);
+      final path = state.uri.path;
+      
+      debugPrint('[GoRouter] path: $path, isLoading: ${authState.isLoading}, isAuth: ${authState.isAuthenticated}');
+      
+      // If we are still initializing auth data, show splash screen.
       if (authState.isLoading) {
-        return state.uri.path == '/splash' ? null : '/splash';
+        return path == '/splash' ? null : '/splash';
+      }
+
+      // Once loading is finished, if we are on the splash screen, we MUST 
+      // navigate away. Determine where to send them.
+      if (path == '/splash') {
+        if (!authState.isAuthenticated) return '/auth';
+        return authState.onboardingCompleted ? '/dashboard' : '/onboarding';
       }
 
       final isAuthenticated = authState.isAuthenticated;
       final isOnboarded = authState.onboardingCompleted;
-      final path = state.uri.path;
 
       final publicPaths = ['/', '/auth', '/about', '/contact', '/privacy', '/terms', '/splash'];
       final isPublicRoute = publicPaths.contains(path);
 
-      // Not authenticated → send to auth
-      if (!isAuthenticated && !isPublicRoute) return '/auth';
+      // Not authenticated → send to landing page (or auth if explicitly navigating there)
+      if (!isAuthenticated && !isPublicRoute) return '/';
 
       // Authenticated but on auth page or splash → redirect appropriately
       if (isAuthenticated && (path == '/auth' || path == '/splash')) {
@@ -116,7 +127,16 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(path: '/lost-found/:id', builder: (_, state) => LostFoundItemScreen(itemId: state.pathParameters['id']!)),
           GoRoute(path: '/unimedia', builder: (_, _) => const UnimediaScreen()),
           GoRoute(path: '/unimedia/:id', builder: (_, state) => PostDetailScreen(postId: state.pathParameters['id']!)),
-          GoRoute(path: '/explore', builder: (_, _) => const ExploreScreen()),
+          GoRoute(
+            path: '/explore',
+            builder: (context, state) {
+              final tab = state.uri.queryParameters['tab'];
+              int index = 0;
+              if (tab == 'housing') index = 1;
+              if (tab == 'study') index = 2;
+              return ExploreScreen(initialIndex: index);
+            },
+          ),
           GoRoute(path: '/food/:id', builder: (_, state) => RestaurantDetailScreen(restaurantId: state.pathParameters['id']!)),
           GoRoute(path: '/housing/:id', builder: (_, state) => AccommodationDetailScreen(itemId: state.pathParameters['id']!)),
           GoRoute(path: '/study/upload', builder: (_, _) => const UploadMaterialScreen()),

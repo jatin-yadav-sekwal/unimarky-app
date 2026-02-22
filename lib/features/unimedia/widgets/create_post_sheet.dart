@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:unimarky/core/network/api_client.dart';
+import 'package:unimarky/core/utils/image_compressor.dart';
 
 /// Bottom sheet for creating a post, event, or announcement
 class CreatePostSheet extends StatefulWidget {
+  final String role;
   final VoidCallback onCreated;
-  const CreatePostSheet({super.key, required this.onCreated});
+  const CreatePostSheet({super.key, required this.role, required this.onCreated});
   @override
   State<CreatePostSheet> createState() => _CreatePostSheetState();
 }
@@ -21,8 +23,11 @@ class _CreatePostSheetState extends State<CreatePostSheet> {
   XFile? _image;
 
   Future<void> _pickImage() async {
-    final picked = await ImagePicker().pickImage(source: ImageSource.gallery, maxWidth: 1200, imageQuality: 80);
-    if (picked != null) setState(() => _image = picked);
+    var picked = await ImagePicker().pickImage(source: ImageSource.gallery, maxWidth: 1200, imageQuality: 80);
+    if (picked != null) {
+      picked = await ImageCompressor.compressImage(picked);
+      setState(() => _image = picked);
+    }
   }
 
   Future<String?> _uploadImage() async {
@@ -79,16 +84,18 @@ class _CreatePostSheetState extends State<CreatePostSheet> {
         const SizedBox(height: 12),
 
         // Type selector
-        SegmentedButton<String>(
-          segments: const [
-            ButtonSegment(value: 'post', label: Text('Post'), icon: Icon(Icons.edit, size: 16)),
-            ButtonSegment(value: 'event', label: Text('Event'), icon: Icon(Icons.event, size: 16)),
-            ButtonSegment(value: 'announcement', label: Text('News'), icon: Icon(Icons.campaign, size: 16)),
-          ],
-          selected: {_type},
-          onSelectionChanged: (s) => setState(() => _type = s.first),
-        ),
-        const SizedBox(height: 12),
+        if (widget.role != 'normal') ...[
+          SegmentedButton<String>(
+            segments: const [
+              ButtonSegment(value: 'post', label: Text('Post'), icon: Icon(Icons.edit, size: 16)),
+              ButtonSegment(value: 'event', label: Text('Event'), icon: Icon(Icons.event, size: 16)),
+              ButtonSegment(value: 'announcement', label: Text('News'), icon: Icon(Icons.campaign, size: 16)),
+            ],
+            selected: {_type},
+            onSelectionChanged: (s) => setState(() => _type = s.first),
+          ),
+          const SizedBox(height: 12),
+        ],
 
         if (_type != 'post') ...[
           TextField(controller: _titleC, decoration: const InputDecoration(labelText: 'Title', border: OutlineInputBorder(), isDense: true)),

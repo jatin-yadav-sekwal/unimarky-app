@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../core/network/api_client.dart';
 import '../../marketplace/models/marketplace_item.dart';
-import '../../lostfound/models/lost_found_item.dart';
+import '../../lostfound/models/lostfound_item.dart';
 
 class PublicProfileScreen extends StatefulWidget {
   final String userId;
