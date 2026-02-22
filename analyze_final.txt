@@ -1,0 +1,10 @@
+Analyzing lib...
+
+   info - core\network\api_client.dart:29:26 - Don't invoke 'print' in production code. Try using a logging framework. - avoid_print
+   info - features\lostfound\screens\report_item_screen.dart:48:9 - Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?'. - use_null_aware_elements
+   info - features\marketplace\screens\create_listing_screen.dart:54:9 - Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?'. - use_null_aware_elements
+   info - features\marketplace\screens\create_listing_screen.dart:113:15 - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\marketplace\screens\create_listing_screen.dart:123:15 - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\unimedia\widgets\create_post_sheet.dart:53:9 - Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?'. - use_null_aware_elements
+
+6 issues found.

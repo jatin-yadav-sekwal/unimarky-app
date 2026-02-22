@@ -1,0 +1,35 @@
+Analyzing lib...
+
+  error - features\lostfound\screens\lostfound_item_screen.dart:3:8 - Target of URI doesn't exist: 'package:share_plus/share_plus.dart'. Try creating the file referenced by the URI, or try using a URI for a file that does exist. - uri_does_not_exist
+  error - features\lostfound\screens\lostfound_item_screen.dart:49:28 - Undefined name 'Share'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - features\marketplace\screens\marketplace_item_screen.dart:3:8 - Target of URI doesn't exist: 'package:share_plus/share_plus.dart'. Try creating the file referenced by the URI, or try using a URI for a file that does exist. - uri_does_not_exist
+  error - features\marketplace\screens\marketplace_item_screen.dart:61:30 - Undefined name 'Share'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+warning - features\marketplace\screens\marketplace_screen.dart:67:11 - The value of the local variable 'theme' isn't used. Try removing the variable or using it. - unused_local_variable
+warning - features\marketplace\widgets\category_filter.dart:2:8 - Unused import: 'package:unimarky/features/marketplace/models/marketplace_item.dart'. Try removing the import directive. - unused_import
+warning - features\unimedia\widgets\create_post_sheet.dart:1:8 - Unused import: 'dart:io'. Try removing the import directive. - unused_import
+   info - core\network\api_client.dart:29:26 - Don't invoke 'print' in production code. Try using a logging framework. - avoid_print
+   info - features\lostfound\screens\lostfound_item_screen.dart:3:8 - The imported package 'share_plus' isn't a dependency of the importing package. Try adding a dependency for 'share_plus' in the 'pubspec.yaml' file. - depend_on_referenced_packages
+   info - features\lostfound\screens\lostfound_screen.dart:42:20 - Statements in an if should be enclosed in a block. Try wrapping the statement in a block. - curly_braces_in_flow_control_structures
+   info - features\lostfound\screens\lostfound_screen.dart:42:41 - Statements in an if should be enclosed in a block. Try wrapping the statement in a block. - curly_braces_in_flow_control_structures
+   info - features\lostfound\screens\lostfound_screen.dart:99:106 - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\lostfound\screens\report_item_screen.dart:48:9 - Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?'. - use_null_aware_elements
+   info - features\lostfound\widgets\lostfound_card.dart:23:70 - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\lostfound\widgets\lostfound_card.dart:42:39 - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\lostfound\widgets\lostfound_card.dart:78:49 - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\marketplace\screens\create_listing_screen.dart:54:9 - Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?'. - use_null_aware_elements
+   info - features\marketplace\screens\create_listing_screen.dart:113:15 - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\marketplace\screens\create_listing_screen.dart:123:15 - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\marketplace\screens\marketplace_item_screen.dart:3:8 - The imported package 'share_plus' isn't a dependency of the importing package. Try adding a dependency for 'share_plus' in the 'pubspec.yaml' file. - depend_on_referenced_packages
+   info - features\marketplace\screens\marketplace_screen.dart:166:67 - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\marketplace\widgets\category_filter.dart:38:34 - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\marketplace\widgets\marketplace_card.dart:22:70 - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\marketplace\widgets\marketplace_card.dart:79:49 - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\unimedia\screens\post_detail_screen.dart:76:83 - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\unimedia\screens\unimedia_screen.dart:34:20 - Statements in an if should be enclosed in a block. Try wrapping the statement in a block. - curly_braces_in_flow_control_structures
+   info - features\unimedia\screens\unimedia_screen.dart:34:41 - Statements in an if should be enclosed in a block. Try wrapping the statement in a block. - curly_braces_in_flow_control_structures
+   info - features\unimedia\screens\unimedia_screen.dart:106:73 - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\unimedia\widgets\create_post_sheet.dart:54:9 - Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?'. - use_null_aware_elements
+   info - features\unimedia\widgets\post_card.dart:27:70 - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - features\unimedia\widgets\post_card.dart:142:46 - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+
+31 issues found.

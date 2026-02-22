@@ -1,0 +1,24 @@
+Analyzing lib...
+
+  error - core\widgets\app_drawer.dart:15:28 - The getter 'userRole' isn't defined for the type 'AuthState'. Try importing the library that defines 'userRole', correcting the name to the name of an existing getter, or defining a getter or field named 'userRole'. - undefined_getter
+  error - features\auth\providers\auth_provider.dart:52:48 - The method 'getSession' isn't defined for the type 'GoTrueClient'. Try correcting the name to the name of an existing method, or defining a method named 'getSession'. - undefined_method
+  error - features\auth\providers\auth_provider.dart:114:5 - The class 'ApiClient' doesn't have an unnamed constructor. Try using one of the named constructors defined in 'ApiClient'. - new_with_undefined_constructor_default
+  error - features\auth\screens\auth_screen.dart:227:29 - The named parameter 'isFullWidth' isn't defined. Try correcting the name to an existing named parameter's name, or defining a named parameter with the name 'isFullWidth'. - undefined_named_parameter
+  error - features\dashboard\screens\dashboard_screen.dart:31:19 - The class 'ApiClient' doesn't have an unnamed constructor. Try using one of the named constructors defined in 'ApiClient'. - new_with_undefined_constructor_default
+  error - features\dashboard\screens\dashboard_screen.dart:143:19 - Invalid constant value. - invalid_constant
+  error - features\dashboard\screens\dashboard_screen.dart:143:19 - The method 'ShimmerBlock' isn't defined for the type '_DashboardScreenState'. Try correcting the name to the name of an existing method, or defining a method named 'ShimmerBlock'. - undefined_method
+  error - features\dashboard\screens\dashboard_screen.dart:143:19 - The values in a const list literal must be constants. Try removing the keyword 'const' from the list literal. - non_constant_list_element
+  error - features\dashboard\screens\dashboard_screen.dart:145:19 - The method 'ShimmerBlock' isn't defined for the type '_DashboardScreenState'. Try correcting the name to the name of an existing method, or defining a method named 'ShimmerBlock'. - undefined_method
+  error - features\dashboard\screens\dashboard_screen.dart:145:19 - The values in a const list literal must be constants. Try removing the keyword 'const' from the list literal. - non_constant_list_element
+  error - features\onboarding\screens\onboarding_screen.dart:54:19 - The class 'ApiClient' doesn't have an unnamed constructor. Try using one of the named constructors defined in 'ApiClient'. - new_with_undefined_constructor_default
+  error - features\onboarding\screens\onboarding_screen.dart:135:23 - The named parameter 'inputFormatters' isn't defined. Try correcting the name to an existing named parameter's name, or defining a named parameter with the name 'inputFormatters'. - undefined_named_parameter
+  error - features\onboarding\screens\onboarding_screen.dart:165:23 - The named parameter 'isFullWidth' isn't defined. Try correcting the name to an existing named parameter's name, or defining a named parameter with the name 'isFullWidth'. - undefined_named_parameter
+  error - features\profile\screens\profile_screen.dart:60:31 - The getter 'university' isn't defined for the type 'UserProfile'. Try importing the library that defines 'university', correcting the name to the name of an existing getter, or defining a getter or field named 'university'. - undefined_getter
+  error - features\profile\screens\profile_screen.dart:65:31 - The getter 'mobile' isn't defined for the type 'UserProfile'. Try importing the library that defines 'mobile', correcting the name to the name of an existing getter, or defining a getter or field named 'mobile'. - undefined_getter
+  error - features\profile\screens\profile_screen.dart:70:32 - The getter 'userRole' isn't defined for the type 'AuthState'. Try importing the library that defines 'userRole', correcting the name to the name of an existing getter, or defining a getter or field named 'userRole'. - undefined_getter
+warning - features\dashboard\screens\dashboard_screen.dart:5:8 - Unused import: 'package:unimarky/core/widgets/app_shimmer.dart'. Try removing the import directive. - unused_import
+   info - core\network\api_client.dart:29:26 - Don't invoke 'print' in production code. Try using a logging framework. - avoid_print
+   info - features\auth\widgets\social_auth_button.dart:71:39 - Unnecessary use of multiple underscores. Try using '_'. - unnecessary_underscores
+   info - features\auth\widgets\social_auth_button.dart:71:43 - Unnecessary use of multiple underscores. Try using '_'. - unnecessary_underscores
+
+20 issues found.

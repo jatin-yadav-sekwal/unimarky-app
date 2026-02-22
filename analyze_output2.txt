@@ -1,0 +1,5 @@
+Analyzing lib...
+
+   info - core\network\api_client.dart:29:26 - Don't invoke 'print' in production code. Try using a logging framework. - avoid_print
+
+1 issue found.
